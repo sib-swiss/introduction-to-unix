@@ -14,241 +14,296 @@
 * :pencil2:
   **Additional Tasks:** at the end of each exercise, you will find a section
   named **Additional Tasks**. These sections contain tasks to complete
-  **if you have the time and after having completed the main exercise**. The
-  Additional Tasks sections will not be corrected in class, but their solution
+  **if you have the time and after having completed the main exercise**.
+  Additional tasks sections will not be corrected in class, but their solution
   is given in this document.
 
-* :rocket:
-  **Exercise solutions:** all exercises and "Additional Tasks" section have
+* :white_check_mark:
+  **Exercise solutions:** all exercises and additional tasks section have
   their solution embedded in this document. Solutions are hidden by default,
   but you can reveal them by clicking on them. Here is an example:
 
-  <details><summary><b>Exercise solution (click me)</b></summary>
+  <details><summary><b>Exercise solution (click to reveal)</b></summary>
   :sparkles: This reveals the answer :sparkles:
   </details>
 
-  We encourage you to *not* look at the solutions too quickly, and try to
-  solve the exercises without it. Remember that you can always ask the course
-  teachers for help.
+  We encourage you to **not look at the solutions too quickly**, and try to
+  solve the exercises without them. Remember that you can always ask the
+  course teachers for help.
 
 * :fire:
   **Tip:** if you are viewing these instructions on the GitHub web-interface,
-  you can display a table of content (outline) of this page by clicking on a
-  small icon (looks like a bulleted list) near the top-right of this page.
+  you can display a table of content (outline) of this page by clicking on the
+  small icon that looks like a bulleted list near the top-right of this page.
+
+* :shell:
+  The exercises instructions are designed to work with the **bash** shell,
+  but should also work in other shells, such as the **zsh** shell that is
+  found by default on MacOS. To find out what shell you are currently using,
+  you can run the following command in your terminal:
+  
+   ```sh
+   echo $0
+   ```
+
+  On MacOS, if you are in `zsh` and would like to **switch to `bash`**, you can
+  simply type `bash`.
 
 <br>
 <br>
 <br>
 
-## Exercise 1 - Navigating the filesystem in command line [~15 min]
+## Exercise 1 - Navigating the filesystem in command line [~20 min]
 
+:triangular_flag_on_post:
 **Objective:** get familiar with navigating the directory tree and listing
 the content of directories.
 
-1. **Print your current working directory** with the `pwd` command. This will
-   show you where you are currently located in the directory tree.
+<br>
 
-2. **Navigate to the `exercises/` directory** (the one you unpacked from the
-   zip archive file), then enter the `exercise_1` subdirectory.
+Open a new terminal (shell) and perform the following tasks:
 
-3. **Try to run the commands `cd .` and `cd ..`**  
-   What happens? What does `.` and `..` stand for?
+1. **Print the path of your current working directory** with the `pwd` command.
+   This will show you where you are currently located in the directory tree.
 
-4. **List the content** of the `exercise_1/` directory with `ls`, `ls -l`,
+2. **Navigate to the course's `exercises/` directory** (the one you unpacked
+   from the `.zip` archive file), then enter the `exercise_1/` subdirectory.
+   To make sure you are at the right location, use the `pwd` command again.
+
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+     ```sh
+     # The actual location of the "exercises" directory depends on where you
+     # unzipped it on your system.
+     cd /path/to/directory/exercises
+     ls -l
+     cd exercise_1
+     pwd
+     ```
+
+    :sparkles: changing directory to `exercise_1` can of course also be done
+    in a single command:
+
+     ```sh
+     cd /path/to/directory/exercises/exercise_1
+     pwd
+     ```
+
+   <br>
+   </details>
+
+3. **List the content** of the `exercise_1/` directory with `ls`, `ls -l`,
    `ls -lh`, and `ls -lha`.
-   * **Question:** what do the `-l`, `-h` and `-a` options do?
+   * :question:
+     **Question:** what do the `-l`, `-h` and `-a` options do?
    * :dart:
      **Hint:** you can use `man ls` to display the help for the `ls` command.
      To exit the help, simply type `q` on your keyboard.
    * :sparkles:
-     *Notes:*
+     **Notes:**
      * One-letter options can be grouped together, so `ls -lha` is the
        same as `ls -l -h -a`.
-     * Some options have both a "short" and a "long" form. E.g. `ls -ah`
-       is the short form for `ls --all --human-readable`.
+     * Some options have both a "short" and a "long" form. E.g. `ls -lah`
+       is the short form for `ls -l --all --human-readable`.
 
-5. **List the content of the directory in chronological order** (oldest file
-   first) and in reverse chronological order (newest file first).
-
-:fire:
-**Tip:** a very handy functionality that the shell provides is the ability to
-**auto-complete file/directory names**. You simply have to start typing the
-name of a file/directory, and then click on **TAB** on your keyboard:
-
-* The shell will autocomplete (as much as possible) the file name.
-* If there are multiple file name matches for the characters you started to
-  type, the shell will stop the auto-completion at the point where the names
-  diverge.
-* To continue auto-completion, you will need to type additional characters
-  and then click **TAB** again. You can also click **TAB** again to display
-  all the possible matches left at this point.
-
-You can try this functionality to autocomplete the name of the file
-`a_regular_file_with_a_really_long_name.md`:
-
-* Start by typing `ls a_r`, then click on **TAB**. You will see that the
-  shell auto-completes up to `ls a_regular_file`.
-* At this point there are 2 possible matches: `a_regular_file.txt` and
-  `a_regular_file_with_a_really_long_name.md`. To disambiguate between them,
-  enter the additional character `_` and then click on **TAB** again.
-* The full name of the file `a_regular_file_with_a_really_long_name.md` should
-  now have auto-completed.
-
-<br>
-<details><summary><b>:rocket: Exercise solution</b></summary>
-<p>
-
-1. Printing the current working directory:
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
-    pwd
-    ```
+    ls       # Prints the names of files and directories.
 
-2. Navigate to `exercises/exercise_1`:
-
-    ```sh
-    cd /path/to/directory/exercises
-    ls -l
-    cd exercise_1
-    pwd
-    ls -l
-    ```
-
-   :sparkles: changing directory to `exercise_1` can of course also be done
-   in a single command:
-
-    ```sh
-    cd /path/to/directory/exercises/exercise_1
-    ```
-
-3. The **`.`** symbol is a **shortcut for the current directory**. So running
-   `cd .` has no effect since it simply changes to the same directory we are
-   already in.
-   The `.` shortcut is useful in some situations. E.g. if you want to copy
-   a file to the current directory you can do `cp /file/to/copy .`, or you
-   can run an executable located in the current directory with `./run_me.sh`.
-
-   The **`..`** symbol is a **shortcut to the parent directory**. These
-   shortcuts can be combined, so e.g. `cd ../..` will go up two levels in the
-   directory tree.
-
-4. Listing the content of the `exercise_1/` directory with different `ls`
-   options. The effect of the different options is described in the comments
-   of the code block.
-
-    ```sh
-    ls       # Prints the names of files and directories
     ls -l    # List content of the subdirectory in "long listing" format. This
              # provides additional details for each file/directory, such as
-             # its permissions, its size and its last modified date.
+             # its permissions, its size and its last modification date.
+
     ls -lh   # Adding the "-h" option displays file sizes in "human readable"
              # format. The size of files are shown in kB, MB, GB, instead of
              # their size in bytes (octets).
+
     ls -lha  # Adding the "-a" option additionally displays hidden files and
              # directories. These are files/directories whose name starts with
              # a dot ".".
              # Hidden files are often used to store program configurations.
     ```
 
-5. List the content of the directory in chronological and reverse chronological
-   order.
+   <br>
+   </details>
+
+4. **List the content of the directory in chronological order** (newest file
+   first) and in reverse chronological order (oldest file first).
+
+   * :dart:
+     **Hint:** the option to sort by time is `-t`. To reverse sorting use
+     `-r`/`--reverse`.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     ls -lht    # The "-t" option sorts by time, newest file first.
-    ls -lhtr   # The "-r" option reverses the order of sorting.
+    ls -lhtr   # Adding the "-r" option reverses the order of sorting
+               # (oldest file first).
     ```
 
-    Some other useful `ls` options and shortcuts:
+    Some other useful `ls` options:
 
     ```sh
     ls -a/--all  # Also show hidden files.
     ls -R        # --recursive, list subdirectories recursively.
-
-    cd .         # Does nothing, we stay in the same directory.
-    cd ..        # Go to parent directory.
-    cd /         # Go to root directory.
-    cd ~         # Go to user's home directory, on Linux: /home/<user name>.
-    cd -         # Go back to the previous directory.
-    cd           # With no argument, cd brings you back to your home directory.
     ```
 
-</p>
-</details>
+    <br>
+    </details>
+
+5. A very handy functionality that bash (and other shells) provides is
+   the ability to **auto-complete file/directory names**. Simply start typing
+   the name of a file/directory, and then press on **Tab** on your keyboard:
+
+   * The shell will autocomplete (as much as possible) the file/directory name.
+   * If there are multiple matches for the characters you started to type, the
+     shell will stop the auto-completion at the point where the names diverge.
+   * To continue auto-completion, your need to type additional characters that
+     allow the shell to disambiguate between the different matches, and then
+     press **Tab** again. You can also press **Tab** again to display
+     all the possible matches at this point.
+
+   Try this functionality by auto-completing the name of the file
+   `a_regular_file_with_a_really_long_name.md` (found in the `exercise_1`
+   directory):
+
+   * Start by typing `ls a`, then press on **Tab**. You will see that the
+     shell auto-completes up to `ls a_`.
+   * Double-press on the **Tab** key to display all possible matches at this
+     point. You should see 3 values: `a_directory/`, `a_regular_file.txt` and
+     `a_regular_file_with_a_really_long_name.md`.
+   * To disambiguate between the 3 possible matches, enter the additional
+     character `r` and press on **Tab** again. The shell should should now
+     auto-complete up  to `ls a_regular_file`.
+   * At this point there are 2 possible matches left: `a_regular_file.txt` and
+     `a_regular_file_with_a_really_long_name.md`. To disambiguate between them,
+     enter the additional character `_` and then press on **Tab** again.
+   * The full name of the file `a_regular_file_with_a_really_long_name.md`
+     should now have auto-completed, and you should have the following
+     command ready to be run:
+
+     ```sh
+     ls a_regular_file_with_a_really_long_name.md
+     ```
+
+   * You can now press the **Enter** key on your keyboard to run the `ls`
+     command with the auto-completed file name.
+
+6. In the current working directory, **run the command `cd .`**. You should
+   observe that this command has **no net effect** (i.e. it did not change
+   directory).
+   * :question:
+     **Question:** what is the meaning of **`.`** in the command **`cd .`** ?
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+    **`.`** is the **relative path of the current directory**. Therefore,
+    running `cd .` has no effect as it simply changes to the same directory
+    we are already in.
+
+    The `.` shortcut is useful in some situations. E.g. if you want to copy
+    a file to the current directory you can do `cp /file/to/copy .`, or you
+    can run an executable located in the current directory with `./run_me.sh`.
+
+    <br>
+    </details>
+
+7. **Change your working directory** to the `exercise_2/` directory using its
+   **relative path**. `exercise_2/` is located in the same parent directory
+   as `exercise_1`, your current working directory.
+    * :dart:
+      **Hint:** the relative path of the parent directory is **`..`**
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+     ```sh
+     cd ../exercise_2/
+     ```
+
+    **`..`** is the **relative path of the parent directory**. Multiple levels
+    of `..` can be combined to go up multiple levels. E.g. `cd ../..` will go
+    up two levels in the directory tree.
+
+    Here are is a summary of useful `cd` shortcuts:
+
+     ```sh
+     cd .         # Does nothing, we stay in the same directory.
+     cd ..        # Go to parent directory.
+     cd /         # Go to root directory.
+     cd ~         # Go to user's home directory, on Linux: /home/<user name>.
+     cd -         # Go back to the previous directory.
+     cd           # With no argument, cd brings you back to your home directory.
+     ```
+
+    <br>
+    </details>
+
 <br>
 
 ### Additional Tasks 1
 
-6. **Try the `cd ~` and `cd -` shortcuts**. What do they do?
+8. **Try the `cd ~` and `cd -` shortcuts**. What do they do?
 
-7. **Create an alias named `ll`** that runs the following command:
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+    * **`~`** is a shortcut for the "home directory", and therefore `cd ~` is a
+      shortcut to change directory to your home directory.
+    * **`-`** is a shortcut to change to the previous working directory. It is
+      handy if you want to return to a directory you were in just previously.
+
+   <br>
+   </details>
+
+9. **Create an alias named `ll`** that runs the following command:
    `ls -lh --group-directories-first --color=auto`.
 
    :sparkles:
-   *Notes:*
+   **Notes:**
    * On some Linux system, an `ll` alias may already exist.
    * To list your currently defined aliases, you can type `alias` to list them
      all, or `alias <name of alias>` to list a specific one (e.g. `alias ll`).
    * Aliases only live as long as your current shell session. To make aliases
-     permanent, they must be defined inside a configuration file, such as
-     `~/.bashrc`, so that they get loaded each time a new shell is spawned.
+     permanent, they must be defined inside a **configuration file**, such as
+     **`~/.bashrc`**, so that they get loaded each time a new shell is spawned.
    * To remove an alias from the current shell, use `unalias <alias name>`.
    * To remove a permanent alias, remove it from the config file
      (e.g. `.bashrc`) where it is defined.
 
-8. **Compute the size of a directory**. To display the size of a directory,
-   the command **`du -sh <directory>`** can be used. Try in on the directories
-   found in `exercise_1`.
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
-9. Let's look at a detail of **how the bash shell displays file sizes**.
+     ```sh
+     # Create a new "ll" alias:
+     alias ll='ls -lh --group-directories-first --color=auto'
+     ```
 
-   Go into the directory `a_directory` and list its content using the
-   following commands - look at how file size is indicated:
-   * `ls -l`: lists the file size in bytes/octets.
-   * `ls -lh` (you can also use your new `ll` alias!): the `-h` option
-     (the short form of `--human-readable`) lists the file size in a more
-     readable format, using the `k`, `M`, `G`, ... unit abbreviations for
-     `kB` (kilobyte), `MB` (megabyte), `GB`, (gigabyte) etc.
+    Here are some some more useful commands for aliases:
 
-   :sparkles:
-   *Note:* in everyday language, the term **kilobyte** (abbreviated `kB`) is
-   used for talking interchangeably about either 1000 bytes or 1024 bytes,
-   because they represent almost the same quantity of bytes.
-   If we really wanted to be precise, the proper name for a unit of 1024 bytes
-   is a *kibibyte* `KiB`, while a *kilobyte* designates 1000 bytes. Similarly,
-   a *megabyte* is 1'000'0000 bytes, and a *mebibyte* is 1024^2 bytes (same
-   with *gigabyte* vs. *gibibytes*, *terabyte* vs.*tebibyte*, etc.).
-
-<br>
-<details><summary><b>:rocket: Additional tasks solution</b></summary>
-<p>
-
-6. `cd ~` and `cd -` shortcuts:
-   * **`~`** is a shortcut for the "home directory", and therefore `cd ~` is a
-     shortcut to change directory to your home directory.
-   * **`-`** is a shortcut to change to the previous working directory. It is
-     handy if you want to return to a directory you were in just previously.
-
-7. Create an `ll` alias:
-
-    ```sh
-    # Create a new "ll" alias:
-    alias ll='ls -lh --group-directories-first --color=auto'
-    ```
-
-   Here are some some more useful commands for aliases:
-
-    ```sh
+     ```sh
      alias       # Lists the currently defined aliases.
-     unalias ll  # Removes the alias from the current shell session.
+     unalias ll  # Removes an alias - here "ll" - from the current shell session.
 
      # The "type" command tells if a command is an alias:
      #  * If yes, the aliased command is shown.
      #  * If not, the path to the binary file is shown.
      type ll    # -> ll is aliased to `ls -lh --group-directories-first --color=auto'
      type bash  # -> bash is /usr/bin/bash
-    ```
+     ```
 
-8. Show the size of the directories:
+   <br>
+   </details>
+
+10. **Compute the size of a directory**. To display the size of a directory,
+    the command **`du -sh <directory>`** can be used. Try in on the directories
+    found in `exercise_1`.
+
+    <details><summary><b>:white_check_mark: Solution</b></summary>
 
      ```sh
      du -sh a_directory  # 20K  (20 kilobytes)
@@ -259,24 +314,43 @@ You can try this functionality to autocomplete the name of the file
      du -sh ?_directory
      ```
 
-9. Nothing to correct.
+    <br>
+    </details>
 
-</p>
-</details>
+11. Let's look at a detail of **how the bash shell displays file sizes**.
+
+    Go into the directory `a_directory` and list its content using the
+    following commands - look at how file size is indicated:
+    * **`**ls -l`**: lists the file size in **bytes/octets**.
+    * **`ls -lh`** (you can also use your new `ll` alias!): the **`-h`** option
+      (the short form of `--human-readable`) lists the file size in a more
+      readable format, using the `k`, `M`, `G`, ... unit abbreviations for
+      `kB` (kilobyte), `MB` (megabyte), `GB`, (gigabyte) etc.
+
+    :sparkles:
+    **Note:** in everyday language, the term **kilobyte** (abbreviated `kB`) is
+    used for talking interchangeably about either 1000 bytes or 1024 bytes,
+    because they represent almost the same quantity of bytes.  
+    If we really wanted to be precise, the proper name for a unit of 1024 bytes
+    is a *kibibyte* `KiB`, while a *kilobyte* designates 1000 bytes. Similarly,
+    a *megabyte* is 1'000'0000 bytes, and a *mebibyte* is 1024^2 bytes (same
+    with *gigabyte* vs. *gibibytes*, *terabyte* vs.*tebibyte*, etc.).
 
 <br>
 <br>
 <br>
 
-## Exercise 2 - File globbing with wildcard characters [15 min]
+## Exercise 2 - Filename expansion with wildcard characters [~20 min]
 
-**Objective:** learn to use **wildcard characters** to match existing file
-names.
+:triangular_flag_on_post:
+**Objective:** learn to use **filename expansion (globbing)** using
+**wildcard characters** to match existing file names.
 
 :sparkles:
 **Notes:**
 
-* The technical term for the expansion of wildcards characters by the shell is
+* The correct technical term for the expansion of wildcards characters by the
+  shell is
   **[filename expansion](https://www.gnu.org/software/bash/manual/bash.html#Filename-Expansion)**,
   but it is often referred to as **globbing**.
 * Globbing only matches **existing file/directory names**: expansion will not
@@ -284,13 +358,15 @@ names.
   name is *filename expansion*.
 * :fire:
   **Tip:** If you don't want a specific wildcard character to expand, you can
-  **escape it** by prefixing it with `\`. E.g. `ls test_\*.md` will try to
-  list a file named exactly `test_*.md`.
+  **escape it** by prefixing it with **`\`**.  
+  E.g. `ls test_\*.md` will try to list a file named exactly `test_*.md`.
+
+<br>
 
 To start this exercise, enter the directory `exercise_2/RedList_mammals` and
-list its content with the command **`ls`**.
-You will see that it contains a large number of files, whose names are those
-of the critically endangered mammal species as listed in the
+list its content with the command **`ls`**. You will see that it contains a
+large number of files, whose names are those of the
+**critically endangered mammal species** as listed in the
 [International Union for Conservation of Nature (IUCN) Red List](https://www.iucnredlist.org).
 
 The species names are given in
@@ -298,41 +374,13 @@ The species names are given in
 and each file has the structure `Genus_species`. E.g. if there a was file for
 humans, it would be named `Homo_sapiens`.
 
-**Using `ls` and wildcard characters, perform the following tasks:**
+Using `ls` and wildcard characters, perform the following tasks:
 
-1. List all files starting with the letter `i` (upper or lower case).  
+1. **List all files starting with the letter `i`** (upper or lower case).  
    :dart:
    **Hint:** you should have 1 match.
 
-2. List the files of [Rhinoceros species](https://en.wikipedia.org/wiki/Rhinoceros#Species)
-   (genus *Rhinoceros*, *Dicerorhinus*, and *Diceros*).  
-   :dart:
-   **Hint:** you should have 3 matches.
-
-3. List the files of Gibbon species from the genus
-   *[Nomascus](https://en.wikipedia.org/wiki/Nomascus)* whose species
-   name ends with either `r` or `i`.  
-   :dart:
-   **Hint:** you should have 2 matches.
-
-4. List the files of species that meet *both* of the following conditions:
-   * The genus name contains the pattern "`l` + a single letter + a letter
-     between `a` and `h`", e.g. `lia` or `lug`.
-   * The species name starts with a `g`.
-
-   For instance, *Eubalaena glacialis*, the
-   [North Atlantic right whale](https://en.wikipedia.org/wiki/North_Atlantic_right_whale),
-   would be a match, because its genus name *Eubalaena* contains the pattern
-   `lae` and its species name *glacialis* starts with a `g`.  
-   :dart:
-   **Hint:** you should have 3 matches.
-
-<br>
-
-<details><summary><b>:rocket: Exercise solution</b></summary>
-<p>
-
-1. There is only one file that starts with the letter `i`:
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     cd exercise_2/RedList_mammals/
@@ -340,17 +388,25 @@ humans, it would be named `Homo_sapiens`.
     ```
 
     :sparkles:
-    Since all file names start with a capital letter, `ls -l I*` is sufficient
-    to list all files starting with the letter `i`. If there were also files
-    starting with lower case letters, we would use `ls -l [iI]*`.
+    **Notes:**
+    * In this exercise, since all file names start with a capital letter,
+      `ls -l I*` is sufficient to list all files starting with the letter `i`.
+      If there were also files starting with lower case letters, we would need
+      to use `ls -l [iI]*`.
+    * :warning:
+      **`ls -l [iI]*`** and **`ls -l i* I*`** are not equivalent expressions:
+      `ls -l i* I*` will return an error unless there exists *both* files
+      starting with `i` and with `I` (you can test it in your terminal).
 
-    :warning:
-    Please note that `ls -l [iI]*` and `ls -l i* I*` are not completely
-    equivalent expressions: `ls -l i* I*` will return an error unless there
-    exists both files starting with `i` and with `I` (you can test it in your
-    terminal).
+   <br>
+   </details>
 
-2. The critically endangered Rhino species are:
+2. **List the files of [Rhinoceros species](https://en.wikipedia.org/wiki/Rhinoceros#Species)**
+   (genus *Rhinoceros*, *Dicerorhinus*, and *Diceros*).  
+   :dart:
+   **Hint:** you should have 3 matches.
+
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     ls -l Rhinoceros_* Dicerorhinus_* Diceros_*
@@ -361,22 +417,31 @@ humans, it would be named `Homo_sapiens`.
     # Rhinoceros_sondaicus      (Javan Rhinoceros).
     ```
 
-   :sparkles:
-   Since both the genus `Dicerorhinus` and `Diceros` start with `Dicero`,
-   we can match the pattern `Dicero*` to get both genuses at the same time.
+    :sparkles:
+    **Notes:**
+    * Since both the genus `Dicerorhinus` and `Diceros` start with `Dicero`,
+      we can match the pattern `Dicero*` to get both genuses at the same time.
+    * :rhinoceros:
+      There exists 2 other Rhino species:
+      * The White Rhino (*Ceratotherium simum*) is
+        [listed as "Near Threatened" by the IUCN](https://www.iucnredlist.org/species/4185/45813880).
+        This species has two subspecies: the Northern and Southern White Rhino.
+        The [Northern White Rhino](https://en.wikipedia.org/wiki/Northern_white_rhinoceros)
+        is critically endangered with only 2 female individuals remaining
+        worldwide (living in semi-captivity in Kenya).
+      * The Greater One-Horned Rhino (a.k.a. Indian Rhino), *Rhinoceros unicornis*
+        is [listed as "Vulnerable" by the IUCN](https://www.iucnredlist.org/species/19496/18494149).
 
-   :rhinoceros:
-   There exists 2 other Rhino species:
-   * The White Rhino (*Ceratotherium simum*) is
-     [listed as "Near Threatened" by the IUCN](https://www.iucnredlist.org/species/4185/45813880).
-     This species has two subspecies: the Northern and Southern White Rhino.
-     The Northern White Rhino subspecies is critically endangered with only 2
-     female individuals remaining worldwide (living in semi-captivity in Kenya).
-   * The Greater One-Horned Rhino (a.k.a. Indian Rhino), *Rhinoceros unicornis*
-      is [listed as "Vulnerable" by the IUCN](https://www.iucnredlist.org/species/19496/18494149).
+   <br>
+   </details>
 
-3. [Gibbon Nomascus species](https://en.wikipedia.org/wiki/Nomascus) whose
-   species name ends in `r` or `i`:
+3. **List the files of Gibbon species** from the genus
+   *[Nomascus](https://en.wikipedia.org/wiki/Nomascus)* whose species
+   name ends with either `r` or `i`.  
+   :dart:
+   **Hint:** you should have 2 matches.
+
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     ls -l Nomascus_*[ri]
@@ -385,14 +450,30 @@ humans, it would be named `Homo_sapiens`.
     # Nomascus_siki      (Southern white-cheeked gibbon).
     ```
 
-  :sparkles:
-  *Note:* in this specific case, using `ls -l Nomascus_*[ri]` or
-  `ls -l Nomascus*[ri]` gives the same result, but in principle the former is
-  safer to use because it will only match genus names corresponding to exactly
-  `Nomascus`, while the later could match any genus name starting with
-  `Nomascus`.
+    :sparkles:
+    **Note:** in this specific case, using `ls -l Nomascus_*[ri]` or
+    `ls -l Nomascus*[ri]` gives the same result, but in principle the former is
+    safer to use because it will only match genus names corresponding to
+    exactly `Nomascus`, while the later could match any genus name starting
+    with `Nomascus`.
 
-4. Species matching both conditions:
+   <br>
+   </details>
+
+4. **List the files of species that meet *both* of the following conditions**:
+   * The genus name contains the pattern "`l` + a single letter + a letter
+     between `a` and `h`", e.g. `lia` or `lug`.
+   * The species name starts with a `g`.
+
+   For instance, *Eubalaena glacialis*, the
+   [North Atlantic right whale](https://en.wikipedia.org/wiki/North_Atlantic_right_whale),
+   would be a match, because its genus name *Eubalaena* contains the pattern
+   `lae` and its species name *glacialis* starts with a `g`.
+
+   :dart:
+   **Hint:** you should have 3 matches.
+
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     ls -l *l?[a-h]*_g*
@@ -402,14 +483,14 @@ humans, it would be named `Homo_sapiens`.
     # Plecturocebus_grovesi  (Alta Floresta titi monkey - a new world monkey)
     ```
 
-</p>
-</details>
+   <br>
+   </details>
 
 <br>
 
 ### Additional Tasks 2
 
-5. List the files of species who satisfy both of the following conditions:
+5. **List the files of species that satisfy both of the following conditions**:
    * The genus name contains the pattern "`a` or `o`, followed by exactly 2
      letters, followed by the letter `x`" (e.g. `abix` or `onyx`)
    * The species name ends either with an `i` or with the pattern `ra`.
@@ -420,27 +501,16 @@ humans, it would be named `Homo_sapiens`.
    `opex` and its species name *pulchra* ends with the pattern `ra`.
 
    :dart:
-   **Hint:** this cannot be matched in a single expression only with regular
-   file globbing (i.e. filename expansion). You will need to either:
-   * Use 2 expressions with regular globbing.
-   * Use [brace expansion](https://www.gnu.org/software/bash/manual/bash.html#Brace-Expansion).
-   * Use [pattern matching](https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching).
+   **Hints:**
+   * This pattern cannot be matched in a single expression using only regular
+     file globbing (i.e. filename expansion). You will need to either:
+     * Use 2 expressions with regular globbing.
+     * Use [brace expansion](https://www.gnu.org/software/bash/manual/bash.html#Brace-Expansion).
+     * Use [pattern matching](https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching).
+   * You should have 4 matches.
 
-   :dart:
-   **Hint:** you should have 4 matches.
-
-6. Try to add quotes (single or double) around a globbing pattern with
-   wildcards, e.g. `ls -l "I*"`:
-   * What difference does it make (if any)?
-   * Can you think of a use case for using quotes around a pattern with
-     wildcards?
-
-<br>
-
-<details><summary><b>:rocket: Additional tasks solution</b></summary>
-<p>
-
-5. File names matching the requested criteria:
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     ls -l *[ao]??x_*[ra] *[ao]??x_*i  # Solution using pure globbing. Requires some duplication.
@@ -454,11 +524,10 @@ humans, it would be named `Homo_sapiens`.
     ```
 
     :sparkles:
-    To avoid duplicating the `*[ao]??x_*` part, we can use either
-    **pattern matching** or **brace expansion**.
-
+    **Note:** to avoid duplicating the `*[ao]??x_*` part, we can use either
+    **pattern matching** or **brace expansion**:
     * **[Pattern matching](https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching)**:
-      here `@(ra|i)` matches either the pattern `ra` or `i`.
+      here **`@(ra|i)`** matches either the pattern `ra` or `i`.
     * **[Brace expansion](https://www.gnu.org/software/bash/manual/bash.html#Brace-Expansion)**:
       during the shell's processing, braces `{}` are expanded first (before
       globbing), and therefore:
@@ -473,94 +542,93 @@ humans, it would be named `Homo_sapiens`.
       ls -l *[ao]??x_*[ra] *[ao]??x_*i
       ```
 
-      Before the actual globbing is performed.
+      before file expansion (globbing) is performed.
 
-6. Adding single or double quotes around the search pattern prevents the
-   shell from performing file expansion (globbing). Instead, it will try to
-   literally match the pattern. E.g. `ls -l I*` in the example below will try
-   to find a file named `I*`, instead of any file starting with the letter `I`.
+   <br>
+   </details>
 
-    ```sh
-    ls -l 'I*'
-    # ls: cannot access 'I*': No such file or directory
-    ```
+6. **Try to add quotes (single or double) around a globbing pattern** with
+   wildcards, e.g. `ls -l "I*"`.
 
-   One use case for adding quotes is if we e.g. want to store the pattern
-   to match as a shell variable (e.g. in a shell script):
+   * :question:
+     **Question:** what difference do the quote make (if any)?
+   * :question:
+     **Question:** can you think of a use case for using quotes around a
+     pattern with wildcards?
 
-    ```sh
-    # We store the pattern "I*" in a variable named "search_pattern".
-    search_pattern="I*"
-    echo ${search_pattern}
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
-    # Later we can use our stored pattern to match files:
-    ls -l ${search_pattern}
-    # -> lists all files starting with "I".
-    ```
+    Adding single or double quotes around the search pattern prevents the
+    shell from performing file expansion (globbing). Instead, it will try to
+    literally match the pattern. E.g. `ls -l I*` in the example below will try
+    to find a file named `I*`, instead of any file starting with the letter `I`.
 
-   In this case, if we did not use quotes around `"I*"` when creating our
-   `search_pattern` variable, file globbing would have occurred and the value
-   of the variable would have been set to the file(s) name that match the
-   globbing pattern, and not the pattern itself.
+     ```sh
+     ls -l 'I*'
+     # ls: cannot access 'I*': No such file or directory
+     ```
 
-    ```sh
-    search_pattern=I*
-    echo ${search_pattern}  # The value of `search_pattern` is set to "Indri_indri"
-                            # instead of "I*"... not what we wanted.
-    ```
+    One use case for adding quotes is if we e.g. want to store the pattern
+    to match as a shell variable (e.g. in a shell script):
 
-</p>
-</details>
+     ```sh
+     # We store the pattern "I*" in a variable named "search_pattern".
+     search_pattern="I*"
+     echo ${search_pattern}
+
+     # Later we can use our stored pattern to match files:
+     ls -l ${search_pattern}
+     # -> lists all files starting with "I".
+     ```
+
+    In this case, if we did not use quotes around `"I*"` when creating our
+    `search_pattern` variable, file globbing would have occurred and the value
+    of the variable would have been set to the file(s) name that match the
+    globbing pattern, and not the pattern itself.
+
+     ```sh
+     search_pattern=I*
+     echo ${search_pattern}  # The value of `search_pattern` is set to "Indri_indri"
+                             # instead of "I*"... not what we wanted.
+     ```
+
+   <br>
+   </details>
 
 <br>
 <br>
 <br>
 
-## Exercise 3 - Creating and moving directories and files [10 min]
+## Exercise 3 - Creating and moving directories and files [~20 min]
 
-**Objective:** learn to use the **`mkdir`**, **`cp`** and **`mv`** commands.
+:triangular_flag_on_post:
+**Objective:** learn to use the **`mkdir`**, **`cp`**, **`mv`**, **`rmdir`**
+and **`rm`** commands.
+
+<br>
 
 Enter the directory `exercise_3/` and perform the following tasks:
 
 1. **Create directories** with the **`mkdir`** command:
-   * In the directory `exercise_3/`, create 2 new sub-directories:
+   * In the directory `exercise_3/`, create 2 new directories:
      `species_by_genus` and `species_by_common_name`.
-   * In `species_by_genus/`, create a new sub-directory named
-     `Dendrolagus` ([tree-kangaroos](https://en.wikipedia.org/wiki/Tree-kangaroo)).
-   * In `species_by_common_name/`, create a new sub-directories named `B`.
+   * In `species_by_genus/`, create 2 new sub-directories:
+     `Dendrolagus` ([tree-kangaroos](https://en.wikipedia.org/wiki/Tree-kangaroo))
+     and
+     `Crocidura` ([a genus of shrews](https://en.wikipedia.org/wiki/Crocidura)).
+   * In `species_by_common_name/`, create 2 new sub-directories
+     named `B`, and `R`.
 
-     :fire:
-     *Tip:* to avoid having to rewrite a command, remember that you can use
-     the **up arrow** of your keyboard to go back in your terminal history.
-     This allows you to re-use a command that you wrote earlier, while making
-     changes to it if needed.
+   :fire:
+   **Tip:** to avoid having to rewrite a command, remember that you can use
+   the **up arrow** of your keyboard to go back in your terminal history.
+   This allows you to re-use a command that you wrote earlier, while making
+   changes to it if needed.
 
-2. **Copy files** using the **`cp`** command:
-   * From the directory `exercise_2/RedList_mammals`, make a copy of all files
-     of the genus `Dendrolagus` into `species_by_genus/Dendrolagus`.
-   * From the directory `exercise_2/RedList_mammals`, copy the file for the
-     [Black Rhinoceros](https://en.wikipedia.org/wiki/Black_rhinoceros) -
-     *Diceros bicornis* - to the directory `species_by_common_name`.
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
-3. **Move and rename files** with the **`mv`** command:
-   * Enter the `species_by_common_name` directory.
-   * In the directory, move the file `Diceros_bicornis` into subdirectory `B`.
-   * Rename the `Diceros_bicornis` file you just moved to the common name of
-     the species: `Black_rhinoceros`.
-
-4. **Copy, rename and delete directories**:
-   * Change directory to the root of the `exercise_3/` directory.
-   * Copy the entire directory `species_by_genus/Dendrolagus` - with all its
-     content - to the root of `exercise_3`.
-   * Rename the directory to `Tree-kangaroos`.
-   * Delete the directory `Tree-kangaroos` and its content **in a safe way**.
-
-<br>
-
-<details><summary><b>:rocket: Exercise solution</b></summary>
-<p>
-
-1. **Create the directories** `species_by_genus` and `species_by_common_name`.
+    * **Create the directories `species_by_genus` and `species_by_common_name`**.
 
      ```sh
      cd exercise_3
@@ -572,86 +640,146 @@ Enter the directory `exercise_3/` and perform the following tasks:
      # Option 2: create both directories with a single command.
      mkdir species_by_genus species_by_common_name
 
-     # Option 3: use brace expansion to avoid repeating the common part
-     #           of the directory names.
+     # Option 3: use brace expansion to avoid repeating the common part of the directory names.
      mkdir species_by_{genus,common_name}
      ```
 
-   Create a `Dendrolagus` sub-directory:
+    * **Create sub-directories `Dendrolagus` and `Crocidura`**.
 
      ```sh
-     # Option 1: create the sub-directory from the root of the exercise_3
-     #           directory.
-     mkdir species_by_genus/Dendrolagus
+     # Option 1: create the sub-directories from the root of exercise_3.
+     mkdir species_by_genus/Dendrolagus species_by_genus/Crocidura
 
-     # Option 2: enter the species_by_genus directory, then create the
-     #           "Dendrolagus" sub-directory.
+     # Option 2: enter the "species_by_genus" directory, then create the sub-directories.
      cd species_by_genus/
-     mkdir Dendrolagus
+     mkdir Dendrolagus Crocidura
      cd ..
+
+     # Option 3: same as option 1, but using brace expansion to avoid repetition.
+     mkdir species_by_genus/{Dendrolagus,Crocidura}
      ```
 
-   Create a `B` sub-directory:
+    * **Create sub-directories `B` and `R`**.
 
-    ```sh
-    mkdir species_by_common_name/B
-    ```
+     ```sh
+     mkdir species_by_common_name/B species_by_common_name/R
 
-   :sparkles:
-   *Note:* using the `-p` option of `mkdir`, it is possible to create
-   multiple levels of directories in a single command. For example, we could
-   create all the directories for this exercise in a single command:
+     # Option 2: enter "species_by_common_name", then create the sub-directories.
+     cd species_by_common_name
+     mkdir B R
+     cd ..
 
-    ```sh
-    mkdir -p species_by_{genus/Dendrolagus,common_name/B}
-    ```
+     # Option 3: using brace expansions.
+     mkdir species_by_common_name/{B,R}
+     ```
+
+    :sparkles:
+    **Note:** using the **`-p` option of `mkdir`**, it is possible to create
+    multiple levels of directories in a single command. For example, we could
+    create all the directories for this exercise in a single command:
+
+      ```sh
+      mkdir -p species_by_{genus/{Dendrolagus,Crocidura},common_name/{B,R}}
+      ```
 
     :fire:
-    *Tip:* if you want to preview the output of a brace expansion (or a
-    filename expansion), you can run the command prefixed with `echo`: it will
-    print the command that would be executed to the terminal without running
-    the command.
+    **Tip:** to preview the output of a brace expansion (or filename expansion),
+    you can run the command prefixed with **`echo`**: this prints the command
+    that would be executed to the terminal without running the command.
 
-    ```sh
-    echo mkdir -p species_by_{genus/Dendrolagus,common_name/B}
-    ```
+      ```sh
+      echo mkdir -p species_by_{genus/{Dendrolagus,Crocidura},common_name/{B,R}}
+      ```
 
-2. **Copy files** for the `Dendrolagus` genus.
+   <br>
+   </details>
 
-    ```sh
-    cp ../exercise_2/RedList_mammals/Dendrolagus_* species_by_genus/Dendrolagus/
-    ```
+2. **Copy files** using the **`cp`** command:
+   * From the directory `exercise_2/RedList_mammals`, make a copy of all files
+     of the genuses `Dendrolagus` and `Crocidura` into their respective
+     sub-directories in `species_by_genus`.
+   * From the directory `exercise_2/RedList_mammals`, copy the file for the
+     [Red Wolf](https://en.wikipedia.org/wiki/Red_wolf) (*Canis rufus*) to the
+     directory `species_by_common_name`.
 
-   Copy the file for the Black Rhinoceros:
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
-    ```sh
-    cp ../exercise_2/RedList_mammals/Diceros_bicornis species_by_common_name/
-    ```
+     ```sh
+     # Copy files for the "Dendrolagus" genus.
+     cp ../exercise_2/RedList_mammals/Dendrolagus_* species_by_genus/Dendrolagus/
+     
+     # Copy files for the "Crocidura" genus.
+     cp ../exercise_2/RedList_mammals/Crocidura_* species_by_genus/Crocidura/
 
-3. **Move and rename** the Black Rhinoceros file.
+     # Copy the file for the Red Wolf.
+     cp ../exercise_2/RedList_mammals/Canis_rufus species_by_common_name/
+     ```
+
+   <br>
+   </details>
+
+3. **Move and rename** the Red Wold file with the **`mv`** command:
+   * Enter the `species_by_common_name` directory.
+   * In the directory, move the file `Canis_rufus` into subdirectory `R`.
+   * Rename the `Canis_rufus` file you just moved into the subdirectory `R` to
+     the common name of the species: `Red_wolf`.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     cd species_by_common_name/
-    mv Diceros_bicornis B/                    # Move the file into its subdirectory.
-    mv B/Diceros_bicornis B/Black_rhinoceros  # Rename the files to the common name of the species.
+    mv Canis_rufus R/            # Move the file into its subdirectory.
+    mv R/Canis_rufus R/Red_wolf  # Rename the file to the common name of the species.
     ```
 
-4. **Copy, rename and delete** a directory.
+   <br>
+   </details>
+
+4. **Copy and rename files in a single the `cp`** command:
+   Similarly to what we did for the Red Wolf file, we will now copy and
+   rename the file for the [Black Rhinoceros](https://en.wikipedia.org/wiki/Black_rhinoceros)
+   *Diceros bicornis*, but this time we will copy and rename the file
+   *in a single step* using the **`cp`** command.
+   * Copy the file `Diceros_bicornis` from its original location (in
+     `exercise_2/RedList_mammals`) into `species_by_common_name/B`, while
+     directly renaming it to the common name of the species: `Black_rhino`.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
-     cd ..                                  # Change directory to the root of `exercise_3`.
-     cp -r species_by_genus/Dendrolagus/ .  # Copy the directory and its content.
-     mv Dendrolagus/ Tree-kangaroos         # Rename the directory.
+     # Note: this assumes the current working directory is "species_by_common_name".
+     cp ../../exercise_2/RedList_mammals/Diceros_bicornis B/Black_rhino
+     ```
 
-     # The copying and renaming of the directory can also be done in
-     # a single command.
-     cp -r species_by_genus/Dendrolagus/ Tree-kangaroos/
+   <br>
+   </details>
+
+5. **Copy, rename and delete directories**:
+   * Change directory to the root of the `exercise_3/` directory.
+   * Copy the entire directory `species_by_genus/Dendrolagus` - with all its
+     content - to the root of `exercise_3`.  
+     :target:
+     **Hint:** to make a **recursive** copy of a directory, the option is
+     `-r`/`--recursive`.
+   * Rename the directory to `Tree-kangaroos`.
+   * Delete the directory `Tree-kangaroos` and its content **in a safe way**.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+    ```sh
+    cd ..                                  # Change directory to `exercise_3`.
+    cp -r species_by_genus/Dendrolagus/ .  # Copy the directory and its content.
+    mv Dendrolagus/ Tree-kangaroos         # Rename the directory.
     ```
 
-    To delete the directory in a safe way, we first delete all files inside
-    it, and then delete the empty directory with `rmdir`.
-    Note that `rmdir` will not delete a directory if it is not empty - this
-    is a safety behavior to avoid deleting large number of files by mistake.
+    To delete the directory in a safe way, we first delete all files inside it,
+    and then delete the empty directory with **`rmdir`**, which
+    **only deletes a directory if it is empty**. This is a safety behavior to
+    avoid deleting large number of files by mistake.
 
     ```sh
     rm Tree-kangaroos/*
@@ -659,80 +787,82 @@ Enter the directory `exercise_3/` and perform the following tasks:
     ```
 
     :kangaroo:
-    *Note:* the faster way to delete the directory and all of its content is
+    **Note:** the faster way to delete the directory and all of its content is
     to use the command: `rm -rf Tree-kangaroos`.
     * :warning:
       This recursively deletes the directory, and therefore one has to be
-      careful to delete the correct directory, as you can otherwise very
-      quickly delete large amounts of data by mistake, which can be problematic
-      as **there is no command to undo file deletion**.
+      **very careful** to delete the correct directory, as you can otherwise
+      very quickly delete large amounts of data by mistake, which can be
+      problematic as **there is no command to undo file deletion**.
 
-</p>
-</details>
+   <br>
+   </details>
 
 <br>
 
 ### Additional Tasks 3
 
-* At the root of `exercise_3/`, create a new directory named
-  `species_by_binomial_name` and enter it.
+6. **At the root of `exercise_3/`, create a new directory** named
+   `species_by_binomial_name` and enter it.
 
-* Inside this directory, create sub-directories named `A`, `B`, `C`, ... `Z`
-  (i.e. one directory for each letter of the alphabet).
+7. **Inside this directory, create sub-directories named `A`, `B`, `C`, ... `Z`**
+   (i.e. one directory for each letter of the alphabet).
 
-  To avoid doing this tedious work manually, you can use a **for loop** very
-  similar to this example:
+   To avoid doing this tedious work manually, you can use a **for loop** very
+   similar to this example:
 
     ```sh
     for x in {A..Z}; do echo ${x}; done
     ```
 
-  Try to run the above code in your shell (it will only print things to the
-  screen without creating anything on disk). Then adapt the `for` loop (or
-  the brace expansion) so that it creates the directories for `A` to `Z`.
+   Try to run the above code in your shell (it will only print things to the
+   screen without creating anything on disk). Then adapt the `for` loop so that
+   it creates the directories from `A` to `Z`.
 
-  :sparkles:
-  *Note:* in this specific case, a **for loop** is not even necessary. We can
-  simply use **brace expansions**: `mkdir {A..Z}`.
+   :sparkles:
+   **Note:** in this specific case, a **for loop** is not even necessary, as we
+   can also simply use
+   **[brace expansion](https://www.gnu.org/software/bash/manual/bash.html#Brace-Expansion)**:
+   `mkdir {A..Z}`.
 
-* Using a similar `for` loop as above, copy all files from
-  `exercise_2/RedList_mammals` into their correct subdirectory, i.e. the
-  subdirectory that corresponds to the first letter of the Genus name.
-  For example: `Marmota_vancouverensis` should go into sub-directory `M`
-  because the first letter of the genus name is `M`.
+8. **Copy all files from `exercise_2/RedList_mammals` into their correct subdirectory**,
+   i.e. the subdirectory that corresponds to the first letter of the file's
+   Genus name.  
+   For example: `Marmota_vancouverensis` should go into sub-directory `M`
+   because the first letter of the genus name is `M`.
 
-  Note that when running the for loop, you will get some **warning messages**,
-  because the genuses present in `RedList_mammals` do not cover all letters
-  of the alphabet. However, this is not a problem here because it does not
-  prevent the `for` loop from running to the end.
+   You can again do this using a `for` loop. Here is an example you can run as
+   a test, and then adapt to copy the files into the correct sub-directory.
+
+   ```sh
+   for x in {A..Z}; do ls ../../exercise_2/RedList_mammals/${x}* ; done
+   ```
+
+   Note that when running the `for` loop, you will get some
+   **warning messages**, because the genuses present in `RedList_mammals` do
+   not cover all letters of the alphabet. However, this is not a problem here
+   because it does not prevent the `for` loop from running to the end.
 
 <br>
 
-<details><summary><b>:rocket: Additional tasks solution</b></summary>
+<details><summary><b>:white_check_mark: Additional tasks solution</b></summary>
 <p>
 
 ```sh
-# Create and enter the new directory.
+# 6. Create and enter the new directory.
 mkdir species_by_binomial_name
 cd species_by_binomial_name/
 
-# Create directories "A" to "Z" with a for loop.
+# 7. Create directories "A" to "Z" with a for loop.
 for x in {A..Z}; do mkdir ${x}; done
+# Alternative: use brace expansion.
+mkdir {A..Z}
 
-# Copy species file names into the correct directory.
-# Note that letters that do not have any matching genus will print a warning
-# to the terminal, but this does not prevent the loop from completing.
+# 8. Copy species file names into the correct directory.
+#    Note that letters that do not have any matching genus will print a warning
+#    to the terminal.
 for x in {A..Z}; do cp ../../exercise_2/RedList_mammals/${x}* ${x}/; done
 ls -l ./*
-```
-
-:sparkles:
-The task of creating all the directories could also be done using
-[brace expansion](https://www.gnu.org/software/bash/manual/bash.html#Brace-Expansion),
-like so:
-
-```sh
-mkdir {A..Z}
 ```
 
 </p>
@@ -742,12 +872,167 @@ mkdir {A..Z}
 <br>
 <br>
 
-## Exercise 4 - Display file content [10 min]
+## Exercise 4 - Finding files [~15 min]
 
+:triangular_flag_on_post:
+**Objective:** learn to use the **`find`** command.
+
+<br>
+
+Enter the `exercise_4` directory and perform the following tasks using the
+**`find`** command:
+
+1. **Find all files with a `.png` extension** located anywhere in `exercise_4/`.
+   * Make sure to list *only* files, and not directories.  
+   * :dart:
+     **Hints:**
+     * Use **`-type f`** to restrict the search to files (excludes directories).
+     * You should find a total of 6 `.png` files.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+     ```sh
+     cd exercise_4/
+     find . -type f -name "*.png"
+     # -> There are 6 ".png" files, all located in ./images/img.png/
+     ```
+  
+   :warning:
+   It is good practice to **always pass the search patten between quotes** in
+   order to avoid accidental **filename expansion**. To convince yourself, you
+   can try the following.
+
+     ```sh
+      # Create a test file with a .png extension.
+      touch test.png
+
+      # Now compare the output of the 2 commands:
+      find . -type f -name *.png
+      find . -type f -name "*.png"
+     ```
+
+   <br>
+   </details>
+
+2. **Find files with either a `.jpeg` or `.png` extension**.
+   * As before, directories should be excluded from the search results.  
+   * :dart:
+     **Hint:**
+     * Use the **`-or`** operator to combine multiple search conditions.
+     * You should find a total of 15 files.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+    :warning: Note that **`-type f`** must be repeated for each condition.
+
+     ```sh
+     find . -type f -name "*.png" -or -type f -name "*.jpeg"
+     # -> There are 9 ".jpeg" files, located in ./images/img.jpeg/
+     # -> There are 6 ".png" files, located in ./images/img.png/
+     ```
+  
+    :sparkles:
+    If you are familiar with
+    [regular expressions](https://www.regular-expressions.info), you can also
+    use them with the `find` command by passing the **`-regex`** option.
+    Here we find all `.jpeg` or `.png` files (same as above) using a regexp:
+
+     ```sh
+     find . -type f -regex ".*\.jpeg\|.*\.png"
+     ```
+
+   <br>
+   </details>
+
+3. Find all `.jpeg` files **larger than `15 kB`**.
+
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+    ```sh
+    find . -type f -name "*.jpeg" -size +15k
+    ```
+
+   <br>
+   </details>
+
+<br>
+
+### Additional Tasks 4
+
+Try to use the **`-exec` option of `find`** to display full details (as given
+by the `ls -lh` command) of the files that are found in point 3 of the main
+exercise above.
+
+One possible way to use the **`-exec`** options is as follows:
+
+* **`-exec <command> "{}" +`**, where:
+  * `<command>` is the custom command to execute.
+  * `"{}"` is the placeholder that will be expanded to the files found by `find`.
+
+Your output for all `.jpeg` files larger than `15 kB` should look like this:
+
+```sh
+-rw-rw-r-- 1 bob bob 25K Jan  8 11:16 ./images/img.jpeg/linux_logo.jpeg
+-rw-rw-r-- 1 bob bob 26K Jan  8 11:40 ./images/img.jpeg/linux_gentoo_logo.jpeg
+-rw-rw-r-- 1 bob bob 16K Jan  8 11:36 ./images/img.jpeg/linux_suse_logo.jpeg
+```
+
+<details><summary><b>:white_check_mark: Solution</b></summary>
+
+```sh
+find . -type f -name *.jpeg -size +15k -exec ls -lh "{}" +
+```
+
+:sparkles:
+The following syntax is also possible:
+
+```sh
+find . -type f -name *.jpeg -size +15k -exec ls -lh "{}" \;
+```
+
+The difference between **`-exec ls -lh "{}" +`** and **`-exec ls -lh "{}" \;`**
+is that:
+
+* With **`+`**, all matching files are passed to the `-exec` command.
+  In our `ls` example, this is equivalent to running:
+
+  ```sh
+  ls ./images/img.jpeg/linux_logo.jpeg ./images/img.jpeg/linux_gentoo_logo.jpeg ./images/img.jpeg/linux_suse_logo.jpeg
+  ```
+
+* With **`\;`**, an individual command is run for each file that is found.
+  In our `ls` example, this is equivalent to running:
+
+  ```sh
+  ls ./images/img.jpeg/linux_logo.jpeg
+  ls ./images/img.jpeg/linux_gentoo_logo.jpeg
+  ls ./images/img.jpeg/linux_suse_logo.jpeg
+  ```
+
+In the case of the `ls` command, this does not change much (maybe there is a
+slight performance advantage of running a single `ls`), but there are commands
+that accept only a single file as argument, in which case the solution with
+`"{}" +` would not work because all files are passed to the command in a single
+call.
+
+<br>
+</details>
+
+<br>
+<br>
+<br>
+
+## Exercise 5 - Display file content [~10 min]
+
+:triangular_flag_on_post:
 **Objective:** get familiar with shell commands that display text file content:
 **`head`**, **`tail`**, **`cat`** and **`less`**.
 
-Enter the directory `exercise_4/` and list its content, you should see that it
+<br>
+
+Enter the `exercise_5/` directory and list its content. You should see that it
 contains a single file named `protein_sequences.fasta`.
 
 Perform the following tasks on the `protein_sequences.fasta` file:
@@ -757,90 +1042,74 @@ Perform the following tasks on the `protein_sequences.fasta` file:
    * Display the first 10 lines of the file.
    * Display the last 5 lines of the file.
 
-2. **Count the number of lines** in the file using the **`wc`** command:
-   * Count only the number of lines in the file.
-   * Count only the number of words in the file.
-
-3. **Display the content** of the file using the **`cat`** command:
-   * Why is this not the most adapted program here?
-   * Indicate another usage of `cat`?
-
-4. **Display, navigate and search** the file with **`less`**:
-   * Open the file using `less`.
-   * Add lines numbers to the display using the `-N` option.
-   * Navigate the file using the space bar and arrows.
-   * Search for the pattern `isoform` using the command `/<search term>`, then
-     navigate through the matches with the keys `n` and `N`.
-   * Close the file with `q`.
-
-<br>
-
-<details><summary><b>:rocket: Exercise solution</b></summary>
-<p>
-
-1. **Display the first 10 and last 5 lines.**
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     cd exercise_4/protein_sequences.fasta 
-    head protein_sequences.fasta      # No need to specify "-n 10", as 10 is the default value.
+    head protein_sequences.fasta           # No need to specify "-n 10", as 10 is the default value.
     tail -5 protein_sequences.fasta
     ```
 
    :fire:
    **Tips:**
-   * If you want to display the entire file except for the last `X` lines you
-     can use `head -n-X` (replace `X` by the number of lines you want to skip
+   * To display the entire file **except for the last `X` lines** we can use
+     **`head -n-X`** (replace `X` by the number of lines you want to skip
      at the end of the file).
-   * Conversely, `tail -n+X` will skip the first `X` lines, and then print all
-     remaining lines till the end of the file.
+   * Conversely, **`tail -n+X`** will skip the first `X` lines, then print all
+     remaining lines until the end of the file.
 
-2. **Count the number of lines and words** in the file.
+   <br>
+   </details>
+
+2. **Count the number of lines** in the file using the **`wc`** command:
+   * Count only the number of lines in the file.
+   * Count only the number of words in the file.
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     wc -l protein_sequences.fasta   # 19222 lines.
     wc -w protein_sequences.fasta   # 51914 words.
     ```
 
-3. **Display the content of the file with `cat`.** As you can see, this is not
-   an ideal solution for this file because it is large.
+   <br>
+   </details>
+
+3. **Display the content** of the file using the **`cat`** command.
+   * :question:
+     **Question:** why is `cat` not the most adapted program here ? What could
+     we use instead ?
+
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     cat protein_sequences.fasta
     ```
 
-   One usage of **`cat`** is con**cat**enate 2 or more files together (this is
-   where the command got its name from). `cat` concatenates files by pasting
-   their content one after another.  
-   Here is an example:
+   * `cat` is not ideal here because the file is large. While `cat` is often
+     hand to display small files, the primary purpose of `cat` is actually to
+     con**cat**enate 2 or more files together (this is where the command
+     got its name from). An example of how to concatenate files with `cat` is
+     given in the **Additional Tasks** section below.
+   * To display the content of large files, `less` is generally more
+     appropriate.
 
-    ```sh
-     # Create 2 files to concatenate:
-     head -n5 protein_sequences.fasta > file_1
-     tail -n5 protein_sequences.fasta > file_2
+   <br>
+   </details>
 
-     # Concatenate the 2 files into new file named "file_3".
-     cat file_1 file_2 > file_3
-     cat file_? > file_3         # Same as above, but using filename globbing.
-    ```
+4. **Display, navigate and search** the file with **`less`**:
+   * Open the file using `less`.
+   * Add lines numbers to the display using the **`-N` option**.
+   * Navigate the file using the space bar and arrows.
+   * Search for the pattern `isoform` using the command `/<search term>`, then
+     navigate through the matches with the keys `n` and `N`.
+   * Close the file (exit `less`) with pressing the **`q`** key.
 
-   :sparkles:
-   Bonus: we could also create `file_3` of the example above without creating
-   any intermediate file.
-   This is done using a method called
-   **[process substitution](https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution)**
-   and allows to treat the output of a command as an input file. The syntax
-   of process substitution is **`<(  )`**.  
-   Example:
-
-   ```sh
-   cat <( head -n5 protein_sequences.fasta ) <( tail -n5 protein_sequences.fasta )
-   ```
-
-   :sparkles:
-   To concatenate multiple files by columns, use the **`paste`** command.
-
-4. **Display the content of the file with `less`.** Remember that to exit
-   `less`, you must press the `q` key on your keyboard.
+   <br>
+   <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
     less protein_sequences.fasta
@@ -848,32 +1117,73 @@ Perform the following tasks on the `protein_sequences.fasta` file:
                                       # after a file was opened with "-N" + "enter".
     ```
 
-</p>
-</details>
+   <br>
+   </details>
 
 <br>
 
 ### Additional Tasks 4
 
-Display *only* the line 100 of the file `protein_sequences.fasta` by using a
-combination of `head` and `tail`.
-For this you will need to use the the **`|` (pipe) operator**, that allows to
-redirect the output of one command into another command.
+5. **Usage of `cat` to concatenate files**.  
+   The primary purpose of `cat` is not to display files (as we have seen above),
+   but to con**cat**enate 2 or more files together (this is where the command
+   got its name from).
+   `cat` concatenates files by pasting their content one after the other, in
+   the order in which the files are passed to the command.
 
-<br>
+   Let's try the following example:
 
-<details><summary><b>:rocket: Additional tasks solution</b></summary>
-<p>
+   * We start by **creating 2 files to concatenate** (`file_1` and `file_2`):
 
-`head` and `tail` can be combined to display any section of a file. Here
-we print the line 100 of the file:
+     ```sh
+     head -n5 protein_sequences.fasta > file_1
+     tail -n5 protein_sequences.fasta > file_2
+     ```
 
-```sh
-head -n100 protein_sequences.fasta | tail -n1  # Print the 100th line.
-```
+   * We can now **concatenate these 2 files** into a new file (`file_3`):
 
-</p>
-</details>
+     ```sh
+     cat file_1 file_2 > file_3
+     
+     # Same as above, but using filename expansion (globbing).
+     cat file_? > file_3
+     ```
+  
+   * If you display the content of `file_3` with `cat`, you will see that it
+     contains 10 lines: the content of both `file_1` and `file_2`.
+
+   * :sparkles:
+     **Bonus:** we could also create `file_3` of the example above without
+     creating any intermediate file. This is done using a method called
+     **[process substitution](https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution)**
+     and allows to treat the output of a command as an input file. The syntax
+     of process substitution is **`<(  )`**.
+
+      ```sh
+      cat <( head -n5 protein_sequences.fasta ) <( tail -n5 protein_sequences.fasta )
+      ```
+
+   * :sparkles:
+     **Note:** to concatenate multiple files by columns, use the **`paste`**
+     command.
+
+6. **Display *only* the line 100 of `protein_sequences.fasta`** by using a
+   combination of **`head`** and **`tail`**.
+
+   For this you will need to use the the **`|` (pipe) operator**, that allows
+   to redirect the output of one command into another command.
+
+   <details><summary><b>:white_check_mark: Solution</b></summary>
+
+   **`head`** and **`tail`** can be combined to display any section of a file.
+   Here is how we print the line 100 of the file:
+
+    ```sh
+    head -n100 protein_sequences.fasta | tail -n1  # Print the 100th line.
+    ```
+
+   <br>
+   </details>
 
 <br>
 <br>
@@ -940,7 +1250,7 @@ Here is a reminder of some of the `grep` options:
 
 <br>
 
-<details><summary><b>:rocket: Part A solution</b></summary>
+<details><summary><b>:white_check_mark: Part A solution</b></summary>
 <p>
 
 ```sh
@@ -1008,13 +1318,13 @@ Here are some commands and their options that are useful for this exercise:
 
 <br>
 
-<details><summary><b>:rocket: Part B solution</b></summary>
+<details><summary><b>:white_check_mark: Part B solution</b></summary>
 <p>
 
 There are multiple ways to perform this task, here are a few possibilities.
 
 * :sparkles:
-  *Note:* some pipelines make use of the `grep` option **`-o`**, which
+  **Note:** some pipelines make use of the `grep` option **`-o`**, which
   instructs `grep` to only output the actual matching pattern instead of the
   entire line on which the match is found.
 
@@ -1061,7 +1371,7 @@ the scope of this course.
 
 <br>
 
-### Additional Tasks 7
+### Additional Tasks 5
 
 This is not an easy one, but it's the last!
 
@@ -1116,7 +1426,7 @@ What you have left to do in the code above is to:
 
 <br>
 
-<details><summary><b>:rocket: Additional tasks solution</b></summary>
+<details><summary><b>:white_check_mark: Additional tasks solution</b></summary>
 <p>
 
 ```sh
