@@ -10,7 +10,6 @@ A half-day course providing an introduction to the open source
 
 ### Overview
 
-
 <br>
 
 ### Course structure - please read carefully :warning:
@@ -22,11 +21,10 @@ Specifically, this course is structured as follows:
 
 * **Pre-course self-study tasks** (0.5 days):
 * **In-class teaching** (0.5 days):
-* **Post-course** exercises: a series of exercises to do on your own after the
-  class.
+* **Post-course work** (0.5 days): a series of exercises to do on your own
+  after the class.
 
-You will find all the details to the pre- and post-course tasks in the sections
-below.
+Details to the pre- and post-course tasks are given in the sections below.
 
 <br>
 <br>
