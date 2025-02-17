@@ -986,7 +986,7 @@ find . -type f -name *.jpeg -size +15k -exec ls -lh "{}" +
 ```
 
 :sparkles:
-The following syntax is also possible:
+**Note:** the following syntax is also possible:
 
 ```sh
 find . -type f -name *.jpeg -size +15k -exec ls -lh "{}" \;
@@ -1046,7 +1046,7 @@ Perform the following tasks on the `protein_sequences.fasta` file:
    <details><summary><b>:white_check_mark: Solution</b></summary>
 
     ```sh
-    cd exercise_4/protein_sequences.fasta 
+    cd exercise_5/protein_sequences.fasta 
     head protein_sequences.fasta           # No need to specify "-n 10", as 10 is the default value.
     tail -5 protein_sequences.fasta
     ```
@@ -1122,7 +1122,7 @@ Perform the following tasks on the `protein_sequences.fasta` file:
 
 <br>
 
-### Additional Tasks 4
+### Additional Tasks 5
 
 5. **Usage of `cat` to concatenate files**.  
    The primary purpose of `cat` is not to display files (as we have seen above),
@@ -1189,10 +1189,346 @@ Perform the following tasks on the `protein_sequences.fasta` file:
 <br>
 <br>
 
-## Exercise 5 - using `grep` to retrieve information from files [30 min]
+## Exercise 6 - Convert, sort, compare and merge tabulated data [~30 min]
+
+:triangular_flag_on_post:
+**Objective:** get familiar with some of the basic Linux/UNIX core utilities -
+**`cut`**, **`sort`**, **`tr`**, **`paste`**, **`diff`**.
+
+### Exercise context
+
+In this exercise, we will be working with **3 tabulated data files**
+containing replicates from a
+[micro-array experiment](https://en.wikipedia.org/wiki/DNA_microarray).  
+
+* The files are located in `exercise_6/micro-array/data/`.
+  * `exercise_6/micro-array/data/array_data-1.csv`
+  * `exercise_6/micro-array/data/array_data-2.csv`
+  * `exercise_6/micro-array/data/array_data-3.csv`
+* Each file contains 2 columns, separated by `;` characters:
+  * **Column 1:** gene name (`ProbeID`).
+  * **Column 2:** level of gene expression in each replicate
+    (`Sample1`, `Sample2`, `Sample3`).
+
+```sh
+# A view of the first 4 lines of each file.
+==> array_data-1.csv <==
+ProbeID;Sample1
+1007_s_at;10.93
+1053_at;8.28
+117_at;3.31
+
+==> array_data-2.csv <==
+ProbeID;Sample2
+1552390_a_at;2.76
+1552389_at;3.4
+1552388_at;2.61
+
+==> array_data-3.csv <==
+ProbeID;Sample3
+1007_s_at;11.19
+1053_at;8.06
+117_at;3.13
+```
+
+**Our objective is to merge these three files** into a single tab-delimited
+file with 4 columns: `ProbeID` (gene name), `Sample1`, `Sample2` and `Sample3`
+(the gene expression levels recorded in each replicate of the experiment).
+
+Additionally, the output file format should be **tab-delimited values** rather
+than semi-column separated values as is the case in the input files.
+
+Our final output should thus look like this:
+
+```sh
+ProbeID     Sample1   Sample2   Sample3
+117_at      3.31      3.41      3.13
+121_at      4.42      4.32      4.46
+1007_s_at   10.93     11.44     11.19
+1053_at     8.28      7.54      8.06
+...
+```
+
+Please note that one complication comes from the fact that the order of the
+genes in the input files is **not the same** across all files... Therefore the
+values from the input files **will have to be sorted** before the files can
+be merged by columns.
+
+As this exercise is a bit more complicated, we will decompose it into several
+steps.
+
+<br>
+
+### Step 1: data exploration
+
+Enter the directory `exercise_6/micro-array/data` and have a look at the
+3 input files using `less` or `head`, to get familiar with their structure
+and content.
+
+<details><summary><b>:white_check_mark: Step 1 solution</b></summary>
+
+```sh
+cd exercise_6/micro-array/data/
+head array_data-*
+
+# Open a file with `less`.
+less array_data-1.csv       # Reminder: to exit `less`, press "q".
+```
+
+<br>
+</details>
+
+### Step 2: conversion to tab-delimited values
+
+The original files contain tabulated data separated by a **`;`** (semi-column)
+character. We would like to change this separator to a Tab **`\t`**.
+
+* Convert the delimiters from `;` to `\t` (tab) using the command **`tr`**.
+* Save the converted content into a new file with a `.tsv` extension. E.g. the
+  converted version of `array_data-1.csv` should be named `array_data-1.tsv`.
+* :dart:
+  **Hints**:
+  * To convert (translate) one character to another in a file, the `tr`
+    command looks like: `tr "CHARACTER TO REPLACE" "NEW CHARACTER"`.
+  * `tr` is a command that only takes input from the standard input (*stdin*),
+    i.e. it does not accept a file name as argument. Therefore, you need to
+    redirect the content of a file to standard input with `< FILE_NAME`.
+
+<details><summary><b>:white_check_mark: Step 2 solution</b></summary>
+
+```sh
+tr ";" "\t" < array_data-1.csv > array_data-1.tsv
+tr ";" "\t" < array_data-2.csv > array_data-2.tsv
+tr ";" "\t" < array_data-3.csv > array_data-3.tsv
+head *.tsv
+
+# Loop shortcut:
+for i in $(seq 1 3); do tr ';' '\t' < array_data-${i}.csv > array_data-${i}.tsv; done
+```
+
+:penguin:
+**Fun fact:** `tr` is one of the (few) commands that
+**does not accept a file as input**, it only accepts input from *stdin*.
+This is why we must use `tr < file` or `cat file | tr` to pass input to `tr`.
+
+<br>
+</details>
+
+### Step 3: sort the files
+
+Before we can merge the content of the 3 `array_data-*.tsv` files, we have to
+make sure that the order of rows in each file (i.e. the order of genes) are the
+same in each file.
+
+If you look at the files, you will see that this is not the case. Therefore the
+files need to be sorted by their 1st column (`ProbeID`).
+
+* Sort each `array_data-*.tsv` file by its `ProbeID` column using the
+  **`sort`** command.
+* Make sure that the **header line** of the file remains at the top after the
+  sorting operation.  
+  * :dart:
+    **Hint:** the header line is the only line that starts with a letter. We
+    can therefore take advantage of *numerical sorting* that sorts letters
+    before numbers. You can have a look at `man sort` (the help for the `sort`
+    command) to find the right option.
+* Save the sorted output to files named `array_data-sorted-*.tsv`.
+
+<details><summary><b>:white_check_mark: Step 3 solution</b></summary>
+
+```sh
+sort -n array_data-1.tsv > array_data-sorted-1.tsv
+sort -n array_data-2.tsv > array_data-sorted-2.tsv
+sort -n array_data-3.tsv > array_data-sorted-3.tsv
+head *sorted-?.tsv
+
+# Loop shortcut:
+for i in $(seq 1 3); do sort -n array_data-${i}.tsv > array_data-sorted-${i}.tsv; done
+```
+
+<br>
+</details>
+
+### Step 4: verify the file sorting
+
+In this step, we will double-check that the sorted files we created at the
+previous step (`array_data-sorted-*.tsv`) have the same number of lines
+and that the genes on those lines are in the same order.
+
+To verify this, the idea is to **extract the first column** (the gene names)
+from the sorted files into temporary files, and verify that all those files
+(that only contain the gene names) are identical.
+
+Proceed as follows:
+
+* **Use the `cut` command** to extract the first column (`ProbeID`) of each
+  `array_data-sorted-*.tsv` file. Save the output to temporary files named
+  `tmp-1.tsv`, `tmp-2.tsv`, and `tmp-3.tsv` (these files should contain a
+  single column).
+* **Compare the content of the 3 `tmp-*.tsv` files** using the commands
+  `diff -s tmp-1.tsv tmp-2.tsv` and `diff -s tmp-1.tsv tmp-3.tsv`.
+* If all `tmp-*.tsv` files are the same (and they should), you can then delete
+  these files. Their only purpose was to allow us to check that all files
+  have their lines sorted in the same order.
+
+<details><summary><b>:white_check_mark: Step 4 solution</b></summary>
+
+```sh
+# Extract the first column of each file into a temporary file.
+cut -f1 array_data-sorted-1.tsv > tmp-1.tsv
+cut -f1 array_data-sorted-2.tsv > tmp-2.tsv
+cut -f1 array_data-sorted-3.tsv > tmp-3.tsv
+
+# Loop shortcut:
+for i in $(seq 1 3); do cut -f1 array_data-sorted-${i}.tsv > tmp-${i}.tsv; done
+
+# Compare files that contain only the first column:
+diff -s tmp-1.tsv tmp-2.tsv
+diff -s tmp-1.tsv tmp-3.tsv
+rm tmp-?.tsv
+```
+
+:sparkles:
+**Bonus:** if we want to avoid creating temporary files, we can use a
+functionality of the shell called
+**[process substitution](https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution)**,
+where the output of a command is treated as an input file.
+
+```sh
+diff -s <(cut -f1 array_data-sorted-1.tsv) <(cut -f1 array_data-sorted-2.tsv)
+diff -s <(cut -f1 array_data-sorted-1.tsv) <(cut -f1 array_data-sorted-3.tsv)
+```
+
+<br>
+</details>
+
+### Step 5: Merge the sorted files
+
+In this final step, we concatenate the content of the `array_data-sorted-*.tsv`
+files to produce a final file (`final.tsv`) with 4 columns:
+`ProbeID`, `Sample1`, `Sample2`, and `Sample3`.
+
+* Use **`paste`** to concatenate the content of the `-sorted-*.tsv` files.
+* Use **`cut`** to remove the duplicated `ProbeID` columns.
+* These two steps can be performed in a single command line by using a pipe
+  operator (`|`) to pass the output of `paste` to `cut`.
+
+Your final output file should look like this:
+
+```sh
+ProbeID     Sample1   Sample2   Sample3
+117_at      3.31      3.41      3.13
+121_at      4.42      4.32      4.46
+1007_s_at   10.93     11.44     11.19
+1053_at     8.28      7.54      8.06
+1255_g_at   1.8       1.7       1.75
+...
+```
+
+<details><summary><b>:white_check_mark: Step 5 solution</b></summary>
+
+```sh
+paste array_data-sorted-*.tsv | cut -f 1,2,4,6 > final.tsv
+head final.tsv
+```
+
+:sparkles:
+**Note:** to learn how to do the entire processing we did in this exercise
+**in a single command**, look at the Additional Tasks 6 section below. It
+also shows how the processing can be done using the `join` command, but it's
+actually more complicated in this case.
+
+<br>
+</details>
+
+<br>
+
+### Additional Tasks 6
+
+We will now try to re-write the entire process sorting converting, sorting and
+merging our 3 original data files (steps 2, 3 and 5 above) as a single command
+
+For this you will need to use the following shell functionalities:
+
+* The **Pipe operator `|`**, to redirect the input of one command into the
+  next.
+* The **[process substitution](https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution)**
+  syntax `<( command )`, to treat the output of a command (or of a series of
+  commands) as a virtual file from which data can be read.
+
+:dart:
+**Hint:** this task is a bit more complicated, so to get you started, here is
+an example to give you some inspiration. You can run the command bellow in
+your shell:
+
+```sh
+# Sort and merge the 2nd column (gene expression) of 2 of our input files:
+paste <(sort -n array_data-1.csv | cut -f2 --delim=";") <(sort -n array_data-2.csv | cut -f2 --delim=";") | head
+```
+
+<details><summary><b>:dart: Additional Hint</b></summary>
+
+Here is scaffold of the solution with the **`<()`** and **`|`** placed at the
+correct locations. What is left to do is to replace the textual descriptions
+with the correct commands.
+
+```sh
+paste <( "sorted content of array_data-1.csv" | convert ; to \t" ) \
+      <( "sorted array_data-2.csv | keep only 2nd column" ) \
+      <( "sorted array_data-3.csv | keep only 2nd column" ) > final_2.tsv
+```
+
+</details>
+
+<details><summary><b>:white_check_mark: Solution</b></summary>
+
+Here is how we could do the whole processing of this exercise in a single
+command without creating any intermediate files.
+
+```sh
+paste <(sort -n array_data-1.csv | tr ";" "\t") \
+      <(sort -n array_data-2.csv | cut -f2 --delim=";") \
+      <(sort -n array_data-3.csv | cut -f2 --delim=";") > final_2.tsv
+
+# Compare the new output file with the one we produced earlier:
+diff -s final.tsv final_2.tsv
+diff -s final*.tsv       # Same as above, using filename expansion.
+diff -s final{,_2}.tsv   # Same as above, using brace expansion.
+```
+
+:pushpin:
+An alternative is to use the **`join`** command. Unfortunately, the `join`
+command only allows to join 2 files at a time, so in this case the solution
+ends-up being more complicated (`join` would however be much better in cases
+where we want to join files that have missing rows - i.e. not all files have
+all the rows):
+
+```sh
+join --check-order -o 0 1.2 1.3 2.2 -1 1 -2 1 -t ";" \
+     <( join --check-order -o 0 1.2 2.2 -1 1 -2 1 -t ";" \
+             <( sort array_data-1.csv ) \
+             <( sort array_data-2.csv ) \
+      ) \
+     <( sort array_data-3.csv ) | sort -n | tr ";" "\t" > final_3.tsv
+
+# Compare the new output file with the one we produced earlier:
+diff -s final{,_3}.tsv
+```
+
+</details>
+
+<br>
+<br>
+<br>
+
+## Exercise 7 - using `grep` to retrieve information from files [~30 min]
+
+:triangular_flag_on_post:
+**Objective:** learn the basic usage of **`grep`** and practice piping the
+output of one command to the input of the next command.
 
 In this exercise, we will work with a copy of the file
-`exercise_4/protein_sequences.fasta`. This file is a so-called
+`exercise_5/protein_sequences.fasta`. This file is a so-called
 [FASTA file](https://en.wikipedia.org/wiki/FASTA_format). FASTA is a
 text-based format to represent nucleotides or protein sequences.
 
@@ -1219,15 +1555,15 @@ DGFVIKKEHVENLAKWGTAELKDIDVPFKPSRVILQDFTGVPAVVDL
 
 ### Part A - basic `grep` usage
 
-Enter the directory `exercise_5` and
-**make a copy of the file `exercise_4/protein_sequences.fasta`**
-in that directory. Name the copy of the file `sequences.fasta`.
+Enter the directory `exercise_7` and
+**make a copy of the file `exercise_5/protein_sequences.fasta`**
+in your current working directory. Name the copy of the file `sequences.fasta`.
 
 :sparkles:
-If you are on a Linux/Mac, you may also create a **symlink** instead of
-copying the file:
+**Note for Linux/Mac users:** if you are using Linux/Mac, you may also create
+a **symlink** instead of copying the file. The command is the following:
 
-* `ln -s ../exercise_4/protein_sequences.fasta sequences.fasta`
+* `ln -s ../exercise_5/protein_sequences.fasta sequences.fasta`
 * A symlink creates a pointer to a file, without making an actual copy of it.
 * Symlinks are not supported on Windows (except if using WSL and working on a
   non-windows partition).
@@ -1235,27 +1571,28 @@ copying the file:
 Have a look at the `sequences.fasta` file - e.g. using the `less` command -
 then **answer the following questions using the `grep` command**:
 
-* How many sequences are there in the file? :dart: **Hint:** count the number
-  of header lines in the file.
+* How many sequences are there in the file?  
+  :dart: **Hint:** count the number of header lines in the file.
 * How many entries are from `Staphylococcus`?
-* Display header lines that are *not* from `Staphylococcus`?
+* Display header lines that are *not* from `Staphylococcus`?  
+  :dart: **Hint:** you will need to pipe together 2 `grep` commands using the
+  **`|` (pipe)  operator**.
 
 Here is a reminder of some of the `grep` options:
 
-* `-i`: case insensitive search.
-* `-c`: suppress normal output; instead print the count of matching lines.
-* `-o`: print only matching content, not the entire line.
-* `-n`: add the line number in front of printed output.
-* `-v`: inverted search - print lines that do *not* match the pattern.
+* **`-i`**: case insensitive search.
+* **`-c`**: suppress normal output; instead print the count of matching lines.
+* **`-o`**: print only matching content, not the entire line.
+* **`-n`**: add the line number in front of printed output.
+* **`-v`**: inverted search - print lines that do *not* match the pattern.
 
 <br>
 
-<details><summary><b>:white_check_mark: Part A solution</b></summary>
-<p>
+<details><summary><b>:white_check_mark: Solution Part A</b></summary>
 
 ```sh
-cd exercise_5/
-cp ../exercise_4/protein_sequences.fasta sequences.fasta
+cd exercise_7/
+cp ../exercise_5/protein_sequences.fasta sequences.fasta
 
 # Count the number of sequences in the file:
 grep -c "^>" sequences.fasta   # -> 3325 sequences.
@@ -1269,7 +1606,6 @@ grep "^>" sequences.fasta | grep -vi "os=staphylococcus "
 grep "^>" sequences.fasta | grep -vi "os=staphylococcus " | wc -l   # The sequence count is 3184.
 ```
 
-</p>
 </details>
 
 <br>
@@ -1277,8 +1613,8 @@ grep "^>" sequences.fasta | grep -vi "os=staphylococcus " | wc -l   # The sequen
 ### Part B - extract the top 10 most-frequent genus
 
 In the second part of this exercise, your task is to
-**display the 10 most frequent genuses** in the sequences of the
-`sequences.fasta` file, along with their frequency (i.e. the number of
+**display the 10 most frequent genuses** found in the sequences of the
+`sequences.fasta` file, along with their frequency/count (i.e. the number of
 sequences for each of the 10 most-frequent genus in the file).
 
 Here is a suggested way to perform this task:
@@ -1294,37 +1630,35 @@ Here is a suggested way to perform this task:
 :dart:
 **Hints:**
 
-* The steps above are best done as part of a pipeline: use the `|` (pipe)
-  operator to pipe the output of one command into the next.
-* When building the pipeline and doing tests, you can end your pipeline with
-  `| head` so that you avoid printing the whole file each time.
+* The steps above are best done as part of a pipeline: use the
+  **`|` (pipe)  operator** to pipe the output of one command into the next.
+* When building the pipeline and doing tests, you can temporarily end your
+  pipeline with **`| head`** so that you avoid printing the whole file each
+  time.
 
-:dart:
-**Additional hints:**
-<details><summary><b>click to show more hints, if needed</b></summary>
-<p>
+<details><summary><b>:dart: Additional Hints</b></summary>
 
 Here are some commands and their options that are useful for this exercise:
 
-* `uniq -c`: the `-c/--count` option prefixes each line with the number of
-             occurrences.
-* `sort -nr`: `-n/--numeric-sort` sorts numerically instead of alphabetically.
-              `-r/--reverse` sorts in decreasing order.
-* `grep -o`: the `-o/--only-matching` option returns only the matching part of
-  a line instead of the entire line (the default grep behavior).
+* **`uniq -c`**: the `-c/--count` option prefixes each line with the number of
+                 occurrences.
+* **`sort -nr`**:
+  * `-n/--numeric-sort` sorts numerically instead of alphabetically.
+  * `-r/--reverse` sorts in decreasing order.
+* **`grep -o`**: the `-o/--only-matching` option returns only the matching part
+  of a line instead of the entire line (the default grep behavior).
 
-</p>
 </details>
 
 <br>
 
-<details><summary><b>:white_check_mark: Part B solution</b></summary>
+<details><summary><b>:white_check_mark: Solution Part B</b></summary>
 <p>
 
 There are multiple ways to perform this task, here are a few possibilities.
 
 * :sparkles:
-  **Note:** some pipelines make use of the `grep` option **`-o`**, which
+  **Note:** some pipelines below make use of the `grep` option **`-o`**, which
   instructs `grep` to only output the actual matching pattern instead of the
   entire line on which the match is found.
 
@@ -1353,7 +1687,8 @@ grep -o "OS=[[:alpha:]]*" sequences.fasta | cut -f2 --delim="=" | sort | uniq -c
 Here is another solution that makes use of a more complicated
 **regular expression** to directly isolate the genus name. For this we must:
 
-* Use `grep` with "Perl"-style regular expressions by adding the `-P` option.
+* Use `grep` with "Perl"-style regular expressions by adding the **`-P`**
+  option.
 * Use a **lookbehind match**: `(?<=OS=)` matches something located behind the
   pattern `OS=`.
 
@@ -1366,12 +1701,11 @@ grep -oP "(?<=OS=)[a-zA-Z]+ " sequences.fasta | sort | uniq -c | sort -nr | head
 a powerful tool to do sophisticated pattern matching. However they are beyond
 the scope of this course.
 
-</p>
 </details>
 
 <br>
 
-### Additional Tasks 5
+### Additional Tasks 7
 
 This is not an easy one, but it's the last!
 
@@ -1388,8 +1722,8 @@ exercise 3, we want to have it done automatically for all genuses.
 presented in the course, such as:
 
 * **`for` loops** to repeat a number of instructions multiple times while
-  iterating over a range of values.
-  In our case, we want to iterate over the list of genuses.
+  iterating over a range of values. In our case, we want to iterate over the
+  list of genuses.
 * **Variables**: in bash, variables can be:
   * Created using `variable_name=value`.
   * Accessed using `${variable_name}`.
@@ -1426,8 +1760,7 @@ What you have left to do in the code above is to:
 
 <br>
 
-<details><summary><b>:white_check_mark: Additional tasks solution</b></summary>
-<p>
+<details><summary><b>:white_check_mark: Solution</b></summary>
 
 ```sh
 # Enter the "exercise_7" directory and create a new "species_by_genus"
@@ -1450,7 +1783,6 @@ done
 ls species_by_genus/*
 ```
 
-</p>
 </details>
 
 <br>
